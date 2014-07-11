@@ -62,18 +62,79 @@
 ;((greater-than 2) 1)
 ;(filter #(and ((less-than 6) %) ((greater-than 2) %)) [1 4 5 7])
 ;(filter (pred-and (less-than 6) (greater-than 2)) [1 4 5 7])
+;(def a-map {:a 1, :b 2})
+;(defn test [{:keys [a b] :as a-map}]
+ ; b)
+;(test a-map)
+;(keys a-map)
 
 (defn whitespace? [character]
   (Character/isWhitespace character))
 
 (defn blank? [string]
-  :-)
+  (every? whitespace? string))
+
+;(blank? " \t\n\t ") ;=> true
+;(blank? "  \t a")   ;=> false
+;(blank? "")         ;=> true
+
+(def china {:name "China Miéville", :birth-year 1972})
+(def octavia {:name "Octavia E. Butler"
+              :birth-year 1947
+              :death-year 2006})
+(def kay {:name "Guy Gavriel Kay" :birth-year 1954})
+(def dick {:name "Philip K. Dick", :birth-year 1928, :death-year 1982})
+(def zelazny {:name "Roger Zelazny", :birth-year 1937, :death-year 1995})
+
+(def authors #{china, octavia, kay, dick, zelazny})
+
+(def cities {:title "The City and the City" :authors #{china}
+             :awards #{:locus, :world-fantasy, :hugo}})
+(def wild-seed {:title "Wild Seed", :authors #{octavia}})
+(def lord-of-light {:title "Lord of Light", :authors #{zelazny}
+                    :awards #{:hugo}})
+(def deus-irae {:title "Deus Irae", :authors #{dick, zelazny}})
+(def ysabel {:title "Ysabel", :authors #{kay}, :awards #{:world-fantasy}})
+(def scanner-darkly {:title "A Scanner Darkly" :authors #{dick}})
+
+(def books #{cities, wild-seed, lord-of-light,
+             deus-irae, ysabel, scanner-darkly})
+
+;((key->predicate :awards) ysabel)
+;(:awards ysabel)
+;(:awards wild-seed)
+;(filter #(true) nil)
+
+;(filter #{1 2 3} #{1 3 5})
+;(count #{1 2})
 
 (defn has-award? [book award]
-  :-)
+  (let [awards (:awards book)]
+    (not (empty?
+          (filter #{award} awards)))))
+
+;(has-award? ysabel :world-fantasy) ;=> true
+;(has-award? scanner-darkly :hugo)  ;=> false
 
 (defn HAS-ALL-THE-AWARDS? [book awards]
-  :-)
+  (let [book-awards (:awards book)]
+    (= awards
+       (set (filter book-awards awards)))))
+
+;(filter #{:locus :hugo} #{:locus})
+
+;(HAS-ALL-THE-AWARDS? cities #{:locus})
+;=> true
+;(HAS-ALL-THE-AWARDS? cities #{:locus :world-fantasy :hugo})
+;=> true
+;(HAS-ALL-THE-AWARDS? cities #{:locus :world-fantasy :hugo :pulitzer})
+;=> false
+;(HAS-ALL-THE-AWARDS? lord-of-light #{:locus :world-fantasy :hugo})
+;=> false
+;(HAS-ALL-THE-AWARDS? lord-of-light #{:hugo})
+;=> true
+;(HAS-ALL-THE-AWARDS? scanner-darkly #{})
+;=> true
 
 (defn my-some [pred a-seq]
   :-)
