@@ -152,10 +152,34 @@
 ;(some first [[false] []])    ;=> falsey
 ;(some nil? [1 2])            ;=> falsey
 ;(some nil? [1 nil 2])        ;=> true
+;(= [2] (filter even? [1 2]))
 
 (defn my-every? [pred a-seq]
-  :-)
+  (=
+   a-seq
+   (filter pred a-seq)))
+;(my-every? pos? [1 2 3 4])   ;=> true
+;(my-every? pos? [1 2 3 4 0]) ;=> false
+;(my-every? even? [2 4 6])    ;=> true
+;(my-every? even? [])         ;=> true
+;(mod 4 3)
+;(divides? 2 7)
+
+(defn divides? [divisor dividend]
+  (== 0
+      (mod dividend divisor)))
 
 (defn prime? [n]
-  :-)
+  (let [two-to-n (range 2 n)]
+    (= ()
+       (filter #(divides? % n) two-to-n))))
+
+;(filter #(divides? % 5) [2 3 4])
+;(prime? 5)
+;(prime? 4) ;=> false
+;(prime? 7) ;=> true
+;(prime? 10) ;=> false
+;(filter prime? (range 2 50)) ;=> (2 3 5 7 11 13 17 19 23 29 31 37 41 43 47)
+
+
 ;^^
