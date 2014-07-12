@@ -135,9 +135,23 @@
 ;=> true
 ;(HAS-ALL-THE-AWARDS? scanner-darkly #{})
 ;=> true
+;(some even? [1])
+
+;(first (filter even? [1 3 4]))
 
 (defn my-some [pred a-seq]
-  :-)
+  (first (map pred (filter pred a-seq))))
+
+;(filter even? [1 2 3 4])
+;(some even? [1 3 5 7])       ;=> falsey
+;(some even? [1 3 5 7 8])     ;=> true
+;(some neg? [1 3 5 0 7 8])    ;=> falsey
+;(some neg? [1 3 5 0 7 -1 8]) ;=> true
+;(some neg? [])               ;=> falsey
+;(some first [[false] [1]])   ;=> 1;
+;(some first [[false] []])    ;=> falsey
+;(some nil? [1 2])            ;=> falsey
+;(some nil? [1 nil 2])        ;=> true
 
 (defn my-every? [pred a-seq]
   :-)
